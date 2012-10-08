@@ -2,7 +2,7 @@
 // @name          Concept 2 Log Timestamp
 // @namespace     http://yehster.no-ip.org/
 // @description   
-// @include       http://log.concept2.com/log.asp
+// @include       http://log.concept2.com/log.asp*
 // @exclude       
 // @exclude       
 // @require http://code.jquery.com/jquery-1.8.2.min.js
@@ -23,5 +23,32 @@ function bind_events()
     $("#rr_time_tenths").on({click: set_time_event});
 }
 
+function highlight_today()
+{
+    var log_table=$("#logtable");
+    var current_time=new Date();
+    var day_string=(current_time.getMonth()+1)+"/"+current_time.getUTCDate()+"/"+current_time.getFullYear();
+    var today_td=log_table.find("td:contains('"+day_string+"')");
+    var today_tr=today_td.parent("tr");
+    var total=0;
+    today_tr.each(function(idx,elem)
+    {
+        var current_row=$(this);
+        var distance=current_row.find("td:first");
+        var data=distance.text();
+        var number=data.replace("m","").replace(",","");
+        total=total+parseInt(number);
+    });
+    log_table.find("thead>tr:first>td>div:first").text(total+"m");
+//    window.alert(total);
+}
+
 bind_events();
 set_time_event();
+$("#info").hide();
+var C2Info=$("<button>C2 Info</button>");
+C2Info.on({click: function(){$("#info").toggle();}});
+$("#info").before(C2Info);
+$("#rr_comments").attr("rows","1");
+$("#navbar").hide();
+highlight_today();
