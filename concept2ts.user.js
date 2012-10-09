@@ -38,11 +38,18 @@ function highlight_today()
         var data=distance.text();
         var number=data.replace("m","").replace(",","");
         total=total+parseInt(number);
+        current_row.addClass("today");
     });
-    log_table.find("thead>tr:first>td>div:first").text(total+"m");
+    var header=log_table.find("thead>tr:first>td>div:first").text(total+"m");
+    header.addClass("total_header");
 //    window.alert(total);
 }
-
+function add_css()
+{
+    var style=$("<style>.today {background-color: lightblue;} .total_header{font-size: 3em; background-color:darkgreen;}</style>");
+    $("head").append(style);
+    
+}
 bind_events();
 set_time_event();
 $("#info").hide();
@@ -52,3 +59,4 @@ $("#info").before(C2Info);
 $("#rr_comments").attr("rows","1");
 $("#navbar").hide();
 highlight_today();
+add_css();
