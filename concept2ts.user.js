@@ -50,13 +50,40 @@ function add_css()
     $("head").append(style);
     
 }
+function getWeeklyResults()
+{
+    $.post("http://log.concept2.com/results_rsummary.asp?season=2013",{},
+        function(data)
+        {
+            var summary=$(data);
+            var summary_table=summary.find("#content div div table");
+            var Max=0;
+            var summary_distance;
+            summary_table.find("tr").each(function(idx,elem){
+                var num=parseInt($(elem).find("td:first").text()); 
+                if(!isNaN(num))
+                {
+                    if(num>Max)
+                    {
+                        Max=num;
+                        summary_distance=$(elem).find("td:nth-child(2)").text();
+                    }
+                }
+            });
+            var log_table=$("#logtable");
+            var header=log_table.find("thead>tr:first>td>div:first");
+            header.text(header.text()+"/"+summary_distance);
+        }
+    );
+}
 bind_events();
 set_time_event();
 $("#info").hide();
 var C2Info=$("<button>C2 Info</button>");
 C2Info.on({click: function(){$("#info").toggle();}});
-$("#info").before(C2Info);
+$("#logtable").after(C2Info);
 $("#rr_comments").attr("rows","1");
 $("#navbar").hide();
 highlight_today();
+getWeeklyResults();
 add_css();
