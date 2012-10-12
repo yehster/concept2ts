@@ -27,7 +27,7 @@ function highlight_today()
 {
     var log_table=$("#logtable");
     var current_time=new Date();
-    var day_string=(current_time.getMonth()+1)+"/"+current_time.getUTCDate()+"/"+current_time.getFullYear();
+    var day_string=(current_time.getMonth()+1)+"/"+current_time.getDate()+"/"+current_time.getFullYear();
     var today_td=log_table.find("td:contains('"+day_string+"')");
     var today_tr=today_td.parent("tr");
     var total=0;
